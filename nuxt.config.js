@@ -60,14 +60,14 @@ export default {
     theme: {
       dark: false,
       themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+        light: {
+          primary: "#ff9800",
+          secondary: "#ff5722",
+          accent: "#ffc107",
+          error: "#f44336",
+          warning: "#00bcd4",
+          info: "#607d8b",
+          success: "#4caf50"
         }
       }
     }
