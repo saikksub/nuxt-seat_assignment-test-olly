@@ -2,15 +2,18 @@
   <v-app>
     <v-app-bar
       absolute
-      color="primary"
+      color="accent"
       elevate-on-scroll
       scroll-target="#scrolling-techniques-7"
-      flat
     >
       <!-- <v-toolbar-title class="text-white">Booky</v-toolbar-title> -->
-      <h3 class="orange--text text--lighten-5">
+      <h3 class="white--text text--lighten-2">
         Booky
       </h3>
+      <v-spacer></v-spacer>
+      <v-btn x-large color="primary" to="/new_contact" nuxt
+        >Create Contact</v-btn
+      >
     </v-app-bar>
     <v-main>
       <v-container>

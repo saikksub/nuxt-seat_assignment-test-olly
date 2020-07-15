@@ -11,7 +11,9 @@
         necessitatibus labore?
       </p>
       <div class="text-center">
-        <v-btn x-large color="primary">Create New Contact</v-btn>
+        <v-btn x-large color="primary" to="/new_contact" nuxt
+          >Create Contact</v-btn
+        >
       </div>
     </div>
     <section>
@@ -32,45 +34,49 @@
 </template>
 
 <script>
-import Logo from "~/components/Logo.vue";
-import VuetifyLogo from "~/components/VuetifyLogo.vue";
+import { mapGetters } from "vuex";
 
 export default {
-  components: {
-    Logo,
-    VuetifyLogo
-  },
   data() {
     return {
       headers: [
         {
           text: "Name",
           align: "start",
-          value: "name",
+          value: "user.name",
           groupable: false
         },
-        { text: "Email", value: "email", align: "right", groupable: false },
-        { text: "Seat Number", value: "number", align: "right" }
-      ],
-      data: [
         {
-          name: "Emmanuel Olly",
-          email: "developer.olly@gmail.com",
-          number: "1, 1"
+          text: "Email",
+          value: "user.email",
+          align: "right",
+          groupable: false
         },
+        { text: "Row", value: "row", align: "right" },
+        { text: "Column", value: "col", align: "right" },
         {
-          name: "Emmanuel",
-          email: "developer.olly@gmail.com",
-          number: "1, 2"
+          text: "Seat Number",
+          value: "seat_number",
+          align: "right",
+          groupable: false
         }
-      ]
+      ],
+      data: []
     };
+  },
+  computed: {
+    ...mapGetters(["seats"])
+  },
+  mounted() {
+    this.data = this.seats.flat().filter(seat => seat.filled);
   }
 };
 </script>
 
 <style lang="scss">
 .intro {
-  width: 60%;
+  @media screen and (min-width: 768px) {
+    width: 60%;
+  }
 }
 </style>
