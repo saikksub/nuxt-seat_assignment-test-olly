@@ -169,7 +169,13 @@ export const mutations = {
 };
 
 export const actions = {
-  bookASeat({ commit }, seatInfo) {
-    commit("addASeat", seatInfo);
+  bookASeat({ commit, state }, seatInfo) {
+    const { row, col } = seatInfo;
+    const seat = state.seats[row][col - 1];
+    if (!seat.filled) {
+      commit("addASeat", seatInfo);
+      return { added: true };
+    }
+    return { added: false };
   }
 };

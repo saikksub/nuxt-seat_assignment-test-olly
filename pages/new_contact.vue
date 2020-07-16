@@ -30,15 +30,19 @@
       </v-card-text>
     </v-card>
     <!-- </v-row> -->
-    <v-card max-width="1024" class="mx-auto" v-show="isSeat">
+    <v-card max-width="1048" class="mx-auto" v-show="isSeat">
       <v-card-title center primary-title>
         <h4 class="text-center">Pick a Seat</h4>
       </v-card-title>
       <v-card-text>
         <ol class="cabin fuselage">
           <li class="row" v-for="(row, i) in seats" :key="i">
-            <ol class="seats" :type="i + 1">
-              <li class="seat" v-for="(seat, i) in row" :key="i">
+            <h4 class="align-self-center">Row {{ i }}</h4>
+            <ol
+              class="seats d-flex flex-wrap flex-lg-nowrap flex-md-nowrap justify-start"
+              :type="i + 1"
+            >
+              <li class="seat d-flex" v-for="(seat, i) in row" :key="i">
                 <input
                   type="checkbox"
                   :id="`${seat.row}${seat.col}`"
@@ -70,7 +74,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "NewContactForm",
@@ -90,9 +94,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["seats"])
+    ...mapState(["seats"])
   },
   methods: {
+    ...mapActions(["bookASeat"]),
     checkIfUserHasSelectedSeats() {
       if (this.checkedSeats.length > 1) {
         this.checkedSeats = [this.checkedSeats.slice(-1)[0]];
@@ -101,7 +106,7 @@ export default {
     submitForm() {
       this.isSeat = true;
     },
-    bookSeat() {
+    async bookSeat() {
       const [seat] = this.checkedSeats;
       const [row, col, index] = seat.split("");
 
@@ -115,8 +120,12 @@ export default {
           email: this.email
         }
       };
-      this.$store.dispatch("bookASeat", seatInfo);
-      this.$router.push("/");
+      // this.$store.dispatch("bookASeat", seatInfo);
+      const { added } = await this.bookASeat(seatInfo);
+
+      if (added) {
+        this.$router.push("/");
+      }
     }
   }
   // mounted() {
@@ -126,24 +135,16 @@ export default {
 </script>
 
 <style lang="scss">
-.seats {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-}
-
 .v-application ol {
   padding-left: 0;
 }
 
 .seat {
-  display: flex;
   flex: 0 0 14.28571428571429%;
-  padding: 5px;
+  padding: 0.5rem;
   position: relative;
   &:nth-child(3) {
-    margin-right: 14.28571428571429%;
+    margin-right: 0.5rem;
   }
   input[type="checkbox"] {
     position: absolute;
@@ -152,16 +153,11 @@ export default {
   input[type="checkbox"]:checked {
     + label {
       background: #ff9800;
-      -webkit-animation-name: rubberBand;
-      animation-name: rubberBand;
-      animation-duration: 300ms;
-      animation-fill-mode: both;
     }
   }
   input[type="checkbox"]:disabled {
     + label {
       background: #ffc107;
-      text-indent: -9999px;
       overflow: hidden;
       &:after {
         content: "Taken";
@@ -182,14 +178,12 @@ export default {
     position: relative;
     width: 100%;
     text-align: center;
-    font-size: 14px;
+    font-size: 0.8rem;
     font-weight: bold;
     line-height: 1.5rem;
-    padding: 16px 50px;
+    padding: 2.5rem 3rem;
     background: #607d8b;
     border-radius: 5px;
-    animation-duration: 300ms;
-    animation-fill-mode: both;
 
     &:before {
       content: "";

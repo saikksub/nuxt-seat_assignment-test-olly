@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -65,7 +65,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["seats"])
+    ...mapState(["seats"])
   },
   mounted() {
     this.data = this.seats.flat().filter(seat => seat.filled);
